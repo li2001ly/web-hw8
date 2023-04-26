@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>靜宜大學系院關係圖</title>
+</head>
+<body>
+<center>
+  <div style="width:70%" >
+      <h1>靜宜大學系院關係圖</h1>
+    <p>
+      靜宜大學外語學院、人文暨社會科學院、理學院、管理學院下的科系。
+    </p>
+<!-- Styles -->
+<style>
+#chartdiv {
+  width: 100%;
+  height: 550px;
+}
+</style>
+
+<!-- Resources -->
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/hierarchy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<!-- Chart code -->
+<script>
+am5.ready(function() {
+
+// Create root element
+// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+var root = am5.Root.new("chartdiv");
+
+// Set themes
+// https://www.amcharts.com/docs/v5/concepts/themes/
+root.setThemes([
+  am5themes_Animated.new(root)
+]);
+
+var data = {
+  name: "Root",
+  value: 0,
+  children: [
+    {name: "外語學院",
+      linkWith: ["靜宜大學"],
+      children: [
+        { name: "英國語文學系", value: 1 },
+        { name: "西班牙語文學系", value: 1 },
+        { name: "日本語文學系", value: 1 },     
+      ]
+    },
+    {name: "靜宜大學",
+      linkWith: ["人文暨社會科學院"],
+    },
+    {name: "人文暨社會科學院",
+      children: [
+        { name: "中國文學系", value: 1 },
+        { name: "社會工作與兒童少年福利學系", value: 1 },
+        { name: "台灣文學系", value: 1 },   
+        { name: "法律學系", value: 1 }, 
+        { name: "生態人文學系", value: 1 }, 
+        { name: "大眾傳播學系", value: 1 }, 
+      ]
+    },
+    {name: "理學院",
+      linkWith: ["靜宜大學"],
+      children: [
+        { name: "財務工程學系", value: 1 },  
+        { name: "應用化學系", value: 1 },
+        { name: "食品營養學系", value: 1 }, 
+        { name: "化粧品科學系", value: 1 }, 
+        { name: "資料科學暨大數據分析與應用學系", value: 1 }, 
+      ]
+    },
+    {name: "管理學院",
+      linkWith: ["靜宜大學"],
+      children: [
+        { name: "企業管理學系", value: 1 },
+        { name: "國際企業學系", value: 1 },
+        { name: "會計學系", value: 1 },   
+        { name: "觀光事業學系", value: 1 }, 
+        { name: "財務金融學系", value: 1 }, 
+      ]
+    }
+  ]
+};
+
+// Create wrapper container
+var container = root.container.children.push(
+  am5.Container.new(root, {
+    width: am5.percent(100),
+    height: am5.percent(100),
+    layout: root.verticalLayout
+  })
+);
+
+// Create series
+// https://www.amcharts.com/docs/v5/charts/hierarchy/#Adding
+var series = container.children.push(
+  am5hierarchy.ForceDirected.new(root, {
+    singleBranchOnly: false,
+    downDepth: 1,
+    topDepth: 1,
+    maxRadius: 25,
+    minRadius: 12,
+    valueField: "value",
+    categoryField: "name",
+    childDataField: "children",
+    idField: "name",
+    linkWithStrength: 0.3,
+    linkWithField: "linkWith",
+    manyBodyStrength: -15,
+    centerStrength: 0.5
+  })
+);
+
+series.get("colors").set("step", 2);
+
+series.data.setAll([data]);
+series.set("selectedDataItem", series.dataItems[0]);
+
+// Make stuff animate on load
+series.appear(1000, 100);
+
+}); // end am5.ready()
+</script>
+
+<!-- HTML -->
+<div id="chartdiv"></div>
+amCharts
+  </div>
+</center>
+    <table>
+    <tr>
+      <td style="background: black; color: white;" colspan="2">
+        <br>
+          靜宜大學 資科三B 410906723 李佳玲
+        <br><br>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
